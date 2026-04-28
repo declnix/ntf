@@ -3,7 +3,7 @@
 let
   pkgs = inputs.nixpkgs.legacyPackages.${system};
 in
-self.evalModules {
+(self.evalModules {
   modules = [
     ../modules
     {
@@ -14,4 +14,4 @@ self.evalModules {
     }
   ] ++ modules;
   specialArgs = { inherit inputs; } // specialArgs;
-}
+}).config.finalConfig

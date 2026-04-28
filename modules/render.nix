@@ -1,7 +1,6 @@
 { config, lib, dag, ... }:
 
 let
-  # Convert raw strings to DAG entries, keep existing entries as-is
   wrapEntry = name: value:
     if lib.isString value then
       dag.entryAnywhere value

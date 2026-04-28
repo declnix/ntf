@@ -1,6 +1,6 @@
 { pkgs, lib }:
 let
-  exampleConfig = lib.tmux.tmuxConfiguration {
+  tmuxConf = pkgs.writeTextDir "tmux.conf" (lib.tmux.tmuxConfiguration {
     modules = [{
       tmux-sensible.enable = true;
       tmux.settings = {
@@ -8,8 +8,7 @@ let
         base-index = 1;
       };
     }];
-  };
-  tmuxConf = pkgs.writeTextDir "tmux.conf" exampleConfig.config.finalConfig;
+  });
 in
 pkgs.mkShell {
   packages = [ pkgs.nixfmt pkgs.tmux ];
