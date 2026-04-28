@@ -1,8 +1,6 @@
 {
   imports = [
-    ./core/options.nix
-    ./core/config.nix
-    ./plugins/options.nix
+    ./core.nix
     ./plugins/sensible.nix
     ./render.nix
   ];

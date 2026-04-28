@@ -1,9 +1,19 @@
 { lib, config, pkgs, ... }:
 
+let
+  inherit (lib) mkEnableOption mkIf mkDefault mkOption types;
+  cfg = config.tmux-sensible;
+in
+
 {
-  config = lib.mkIf (config.tmux.plugins.sensible.enable or false) {
+  options.tmux-sensible = {
+    enable = mkEnableOption "tmux-sensible plugin";
+  };
+
+  config = mkIf cfg.enable {
     tmux.plugins.sensible = {
-      path = lib.mkDefault pkgs.tmuxPlugins.sensible;
+      enable = true;
+      path = pkgs.tmuxPlugins.sensible;
     };
   };
 }
