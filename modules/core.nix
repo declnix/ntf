@@ -1,21 +1,15 @@
 { config, lib, dag, ... }:
 
 {
-  options.tmux = {
+  options = {
     plugins = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.submodule {
-        options = {
-          enable = lib.mkEnableOption "this plugin";
-          path = lib.mkOption {
-            type = lib.types.str;
-            description = "Path to the plugin";
-          };
-        };
-      });
+      type = lib.types.attrsOf lib.types.anything;
       default = {};
-      description = "Tmux plugins to source";
+      description = "Tmux plugins as a DAG.";
     };
+  };
 
+  options.tmux = {
     settings = lib.mkOption {
       type = lib.types.attrsOf (lib.types.oneOf [
         lib.types.bool
@@ -51,15 +45,9 @@
       settingsToDag = lib.mapAttrs (name: value:
         dag.entryAnywhere "set -g ${name} ${normalizeValue value}"
       ) config.tmux.settings;
-
-      # Generate source-file commands for enabled plugins
-      enabledPlugins = lib.filterAttrs (_: plugin: plugin.enable or false) config.tmux.plugins;
-      pluginSourceLines = lib.mapAttrs (name: plugin:
-        dag.entryAnywhere "source-file ${toString plugin.path}/tmux.plugin.sh"
-      ) enabledPlugins;
     in
     {
-      # Prepend translated settings and plugin sources to extraConfig for rendering
-      extraConfig = lib.mkBefore (lib.recursiveUpdate settingsToDag pluginSourceLines);
+      # Prepend translated settings to plugins for rendering
+      plugins = lib.mkBefore settingsToDag;
     };
 }

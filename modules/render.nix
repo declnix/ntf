@@ -8,25 +8,19 @@ let
     else
       value;
 
-  wrappedEntries = lib.mapAttrs wrapEntry config.extraConfig;
+  wrappedEntries = lib.mapAttrs wrapEntry config.plugins;
 in
 
 {
   options = {
-    extraConfig = lib.mkOption {
-      type = lib.types.attrsOf lib.types.unspecified;
-      default = {};
-      description = "Extra configuration lines as a DAG.";
-    };
-
     finalConfig = lib.mkOption {
       type = lib.types.str;
       readOnly = true;
-      description = "The fully rendered configuration file.";
+      description = "The fully rendered tmux configuration file.";
     };
   };
 
   config = {
-    finalConfig = dag.render { entries = wrappedEntries; };
+    finalConfig = dag.render { entries = wrappedEntries; separator = "\n"; };
   };
 }

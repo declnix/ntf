@@ -8,8 +8,7 @@ self.evalModules {
     ../modules/default.nix
     {
       _module.args = {
-        inherit (self) tmux;
-        inherit (self.tmux) dag;
+        inherit (self) tmux dag;
         inherit pkgs;
       };
     }

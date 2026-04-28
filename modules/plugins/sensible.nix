@@ -1,7 +1,7 @@
 { lib, config, pkgs, ... }:
 
 let
-  inherit (lib) mkEnableOption mkIf mkDefault mkOption types;
+  inherit (lib) mkEnableOption mkIf mkDefault entryAnywhere plugin;
   cfg = config.tmux-sensible;
 in
 
@@ -11,9 +11,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    tmux.plugins.sensible = {
-      enable = true;
-      path = pkgs.tmuxPlugins.sensible;
-    };
+    plugins.tmux-sensible = entryAnywhere (plugin pkgs.tmuxPlugins.sensible);
   };
 }
