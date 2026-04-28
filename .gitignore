@@ -1,0 +1,9 @@
+# nix artifacts
+result
+*.qcow2
+.direnv/
+.tmp
+.claude/
+.specs/
+.session*
+.gemini*
