@@ -12,11 +12,17 @@ let
   settingsToDag = lib.mapAttrs (name: value:
     dag.entryAnywhere "set -g ${name} ${normalizeValue value}"
   ) config.tmux.settings;
+
+  # Generate source-file commands for enabled plugins
+  enabledPlugins = lib.filterAttrs (_: plugin: plugin.enable or false) config.tmux.plugins;
+  pluginSourceLines = lib.mapAttrs (name: plugin:
+    dag.entryAnywhere "source-file ${toString plugin.path}/tmux.plugin.sh"
+  ) enabledPlugins;
 in
 
 {
   config = {
-    # Merge translated settings into extraConfig for rendering
-    extraConfig = settingsToDag // config.extraConfig;
+    # Prepend translated settings and plugin sources to extraConfig for rendering
+    extraConfig = lib.mkBefore (lib.recursiveUpdate settingsToDag pluginSourceLines);
   };
 }

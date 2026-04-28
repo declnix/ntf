@@ -1,5 +1,8 @@
 { inputs, self, super }:
-{ modules ? [], specialArgs ? {} }:
+{ modules ? [], specialArgs ? {}, system ? "x86_64-linux" }:
+let
+  pkgs = inputs.nixpkgs.legacyPackages.${system};
+in
 self.evalModules {
   modules = [
     ../modules/default.nix
@@ -7,6 +10,7 @@ self.evalModules {
       _module.args = {
         inherit (self) tmux;
         inherit (self.tmux) dag;
+        inherit pkgs;
       };
     }
   ] ++ modules;
