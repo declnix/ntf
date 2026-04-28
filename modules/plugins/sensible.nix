@@ -1,7 +1,8 @@
 { lib, config, pkgs, ... }:
 
 let
-  inherit (lib) mkEnableOption mkIf mkDefault entryAnywhere plugin;
+  inherit (lib) mkEnableOption mkIf mkDefault;
+  inherit (lib.tmux) entryAnywhere plugin;
   cfg = config.tmux-sensible;
 in
 

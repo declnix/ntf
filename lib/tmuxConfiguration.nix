@@ -5,10 +5,10 @@ let
 in
 self.evalModules {
   modules = [
-    ../modules/default.nix
+    ../modules
     {
       _module.args = {
-        inherit (self) tmux dag;
+        inherit (self.tmux) dag;
         inherit pkgs;
       };
     }
