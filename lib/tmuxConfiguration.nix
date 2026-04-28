@@ -2,7 +2,7 @@
 { modules ? [], specialArgs ? {} }:
 self.evalModules {
   modules = [
-    ../modules/render.nix
+    ../modules/default.nix
     {
       _module.args = {
         inherit (self) tmux;
