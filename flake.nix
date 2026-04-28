@@ -14,5 +14,10 @@
       flake = {
         inherit lib;
       };
+      perSystem = { pkgs, ... }: {
+        devShells.default = import ./devshell.nix {
+          inherit pkgs lib;
+        };
+      };
     };
 }
