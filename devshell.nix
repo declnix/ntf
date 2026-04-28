@@ -1,6 +1,6 @@
 { pkgs, lib }:
 let
-  exampleConfig = lib.tmuxConfiguration {
+  exampleConfig = lib.tmux.tmuxConfiguration {
     modules = [{
       tmux-sensible.enable = true;
       tmux.settings = {
