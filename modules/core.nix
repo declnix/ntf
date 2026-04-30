@@ -21,7 +21,8 @@
         Tmux settings as key-value pairs.
         Values are automatically translated to tmux format:
         - Booleans: true → "on", false → "off"
-        - Other types: converted to string
+        - Integers: converted to string without quoting
+        - Strings: wrapped in double quotes, with internal " and \ escaped
         Each setting is rendered as `set -g <key> <value>`.
       '';
       example = {
@@ -38,8 +39,10 @@
       normalizeValue = value:
         if lib.isBool value then
           (if value then "on" else "off")
+        else if lib.isInt value then
+          toString value
         else
-          toString value;
+          ''"${lib.escape [ "\"" "\\" ] (toString value)}"'';
 
       # Transform settings into DAG entries
       settingsToDag = lib.mapAttrs (name: value:
