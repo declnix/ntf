@@ -2,11 +2,9 @@
 let
   tmuxConf = pkgs.writeTextDir "tmux.conf" (lib.tmux.tmuxConfiguration {
     modules = [{
-      tmux-sensible.enable = true;
-      tmux.settings = {
-        mouse = true;
-        base-index = 1;
-      };
+      tmux.tmux-sensible.enable = true;
+      tmux.mouse = true;
+      tmux.base-index = 1;
     }];
   });
 in

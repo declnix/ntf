@@ -7,7 +7,7 @@ let
     else
       value;
 
-  wrappedEntries = lib.mapAttrs wrapEntry config.plugins;
+  wrappedEntries = lib.mapAttrs wrapEntry config.tmux.plugins;
 in
 
 {
